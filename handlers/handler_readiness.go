@@ -1,7 +1,11 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
 
-func handlerReadiness(w http.ResponseWriter, r *http.Request) {
-	respondWithJson(w, 200, struct{}{})
+	"github.com/shricodev/rss-aggregator/helper"
+)
+
+func HandlerReadiness(w http.ResponseWriter, r *http.Request) {
+	helper.RespondWithJson(w, 200, struct{}{})
 }

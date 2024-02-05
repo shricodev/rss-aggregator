@@ -2,28 +2,23 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/joho/godotenv"
 	"github.com/rs/cors"
+	"github.com/rs/zerolog/log"
+
+	"github.com/shricodev/rss-aggregator/handlers"
+	"github.com/shricodev/rss-aggregator/initilizers"
 )
 
+func init() {
+	initilizers.CheckEnvVariables()
+	initilizers.ConnectToDB()
+}
+
 func main() {
-	// Try to read the .env file in the current directory.
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	_, ok := os.LookupEnv("SERVER_PORT")
-
-	if !ok {
-		os.Setenv("SERVER_PORT", "8080")
-	}
-
 	serverPort := os.Getenv("SERVER_PORT")
 	fmt.Println("Server port is: " + serverPort)
 
@@ -44,8 +39,8 @@ func main() {
 
 	router.Mount("/v1", v1Router)
 
-	v1Router.Get("/healthz", handlerReadiness)
-	v1Router.Get("/err", handlerError)
+	v1Router.Get("/healthz", handlers.HandlerReadiness)
+	v1Router.Get("/err", handlers.HandlerError)
 
 	server := &http.Server{
 		Handler: router,
@@ -57,6 +52,6 @@ func main() {
 
 	// This is only executed if the server ever throws an error.
 	if serverError != nil {
-		log.Fatal(err)
+		log.Fatal().Err(serverError).Msg("There was an error starting the server")
 	}
 }
