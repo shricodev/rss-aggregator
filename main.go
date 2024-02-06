@@ -10,12 +10,12 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/shricodev/rss-aggregator/handlers"
-	"github.com/shricodev/rss-aggregator/initilizers"
+	"github.com/shricodev/rss-aggregator/initializers"
 )
 
 func init() {
-	initilizers.CheckEnvVariables()
-	initilizers.ConnectToDB()
+	initializers.CheckEnvVariables()
+	initializers.ConnectToDB()
 }
 
 func main() {

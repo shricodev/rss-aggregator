@@ -1,7 +1,6 @@
-package initilizers
+package initializers
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/rs/zerolog/log"
@@ -14,10 +13,9 @@ var DB *gorm.DB
 func ConnectToDB() {
 	var err error
 	dsn := os.Getenv("DATABASE_CREDS")
-	fmt.Println(dsn)
 
 	// Connect to the database
-	DB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal().Err(err).Msg("There was an error connecting to the database")
 	}

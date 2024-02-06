@@ -1,4 +1,4 @@
-package initilizers
+package initializers
 
 import (
 	"os"
